@@ -8,8 +8,8 @@ router.get("/", (req, res)=> {
     res.send(data)
  });
 
-// router.get("/:id", (req, res)=> {
-//     res.json([{}])
-//  });
+router.get("/:productId", (req, res, next) => {
+
+} )
 
  module.exports = router;

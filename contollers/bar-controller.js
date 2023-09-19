@@ -32,6 +32,7 @@ const getProductBar =  async(req, res, next)=> {
         next(error);
       }
  }
+
 const addProductBar = async (req, res, next) => {
     try {
       const {error} = AddSchema.validate(req.body);
@@ -59,6 +60,7 @@ const updateProductBar = async (req, res, next) => {
       next(error);
     }
   }
+
 const removeProductBar = async (req, res, next) => {
     try {
         const {productId} = req.params;

@@ -1,16 +1,18 @@
 const express = require("express");
 
+const barControllers = require('../../contollers/bar-controller');
+
 const router = express.Router();
 
-const service = require('../../models/bar')
 
-router.get("/", async(req,res) => {
-    const result = await service.getAllBar();
-    res.status(200).json(result);
-});
+router.get("/", barControllers.getAllBar);
 
-// router.get("/:id", (req, res)=> {
-//     res.json([{}])
-//  });
+router.get("/:name", barControllers.getProductBar);
 
- module.exports = router;
+router.post("/", barControllers.addProductBar);
+
+router.put("/:productId", barControllers.updateProductBar);
+
+router.delete("/:productId", barControllers.removeProductBar);
+
+module.exports = router;

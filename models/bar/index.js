@@ -1,61 +1,29 @@
-const fs = require('fs/promises');
-const path = require('path'); 
-
-const {nanoid} = require('nanoid');
-
-const dataPath = path.join(__dirname, '../../data.json');
-
-const updateProductsBar = async (product) => await fs.writeFile(dataPath, JSON.stringify(product, null, 2));
+const ProductBar = require('../schemas/bar-schemas');
 
 const getAllBar = async () => {
-    const productsBar = await fs.readFile(dataPath);
-    return JSON.parse(productsBar);
-}
+  return ProductBar.find();
+};
 
-const getProductBar = async(name) => {
-    const productsBar = await getAllBar();
-    const result = productsBar.find(item=>item.name === name);
-    return result || null;
-}
+const getProductBar = async name => {
+  return ProductBar.findOne({ name: name });
+};
 
-const addProductBar = async(body) => {
-    const productsBar = await getAllBar();
-    const newProduct = {
-        productId: nanoid(),
-        ...body
-    };
-    productsBar.push(newProduct)
-    await updateProductsBar(productsBar);
-    return newProduct;
+const addProductBar = async body => {
+  return ProductBar.create(body);
 };
 
 const updateProductBar = async (productId, body) => {
-    const products = await getAllBar();
-    const index = products.findIndex(item => item.productId === productId);
-    if(index === -1){
-        return null;
-    }
-    products[index] = { productId, ...body };
-    await updateProductsBar(products);
-    return products[index];
-  };
+  return ProductBar.findByIdAndUpdate({ _id: productId }, body, { new: true });
+};
 
-const removeProductBar = async (productId) => {
-    const products = await getAllBar();
-    const index = products.findIndex(item => item.productId === productId);
-    if(index === -1){
-        return null;
-    }
-    const [result] = products.splice(index, 1);
-    await updateProductsBar(products);
-    return result;
-  };
-
+const removeProductBar = async productId => {
+  return ProductBar.findByIdAndRemove({ _id: productId });
+};
 
 module.exports = {
-    getAllBar,
-    getProductBar,
-    addProductBar,
-    updateProductBar,
-    removeProductBar
+  getAllBar,
+  getProductBar,
+  addProductBar,
+  updateProductBar,
+  removeProductBar,
 };

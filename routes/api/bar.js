@@ -1,18 +1,17 @@
-const express = require("express");
+const express = require('express');
 
 const barControllers = require('../../contollers/bar-controller');
 
 const router = express.Router();
 
+router.get('/', barControllers.getAllBar);
 
-router.get("/", barControllers.getAllBar);
+router.get('/:name', barControllers.getProductBar);
 
-router.get("/:name", barControllers.getProductBar);
+router.post('/', barControllers.addProductBar);
 
-router.post("/", barControllers.addProductBar);
+router.put('/:productId', barControllers.updateProductBar);
 
-router.put("/:productId", barControllers.updateProductBar);
-
-router.delete("/:productId", barControllers.removeProductBar);
+router.delete('/:productId', barControllers.removeProductBar);
 
 module.exports = router;

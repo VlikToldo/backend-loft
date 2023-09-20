@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 
 const app = require("./index.js");
 
-const DB_HOST = 'mongodb+srv://Valik:ovQsdJfO6tkjVEZB@cluster0.yad9p7j.mongodb.net/loft-menu?retryWrites=true&w=majority'
+const {DB_HOST, PORT = 3000} = process.env;
 
 mongoose.connect(DB_HOST)
     .then(() => {
-        app.listen(3000);
+        app.listen(PORT);
     })
     .catch(err => {
-        console.log(err);
+        console.log(err.message);
         process.exit(1)
     }) 

@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+require('dotenv').config();
 
 const barRouter = require("./routes/api/bar.js");
 const kitchenRouter = require("./routes/api/kitchen.js");

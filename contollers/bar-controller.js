@@ -1,12 +1,12 @@
 const Joi = require('joi');
 
-const serviceBar = require("../../models/bar");
+const serviceBar = require("../models/bar");
 
 const {HttpError} = require('../helpers');
 
 const AddSchema = Joi.object({
     name: Joi.string().required(),
-    ingridients: Joi.string(),
+    ingridient: Joi.string(),
 });
 
 const getAllBar = async (req, res, next) => {

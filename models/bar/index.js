@@ -7,7 +7,7 @@ const dataPath = path.join(__dirname, '../../data.json');
 
 const updateProductsBar = async (product) => await fs.writeFile(dataPath, JSON.stringify(product, null, 2));
 
-const getAllBar = async ( ) => {
+const getAllBar = async () => {
     const productsBar = await fs.readFile(dataPath);
     return JSON.parse(productsBar);
 }

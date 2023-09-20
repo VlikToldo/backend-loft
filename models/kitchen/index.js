@@ -7,8 +7,8 @@ const dataPath = path.join(__dirname, '../../data.json');
 const updateProductsKitchen = async (product) => await fs.writeFile(dataPath, JSON.stringify(product, null, 2));
 
 const getAllKitchen = async () => {
-    const data = await fs.readFile(dataPath);
-    return JSON.parse(data);
+    const productsKitchen = await fs.readFile(dataPath);
+    return JSON.parse(productsKitchen);
 }
 
 const getProductKitchen = async (name) => {
@@ -17,7 +17,7 @@ const getProductKitchen = async (name) => {
     return result || null;
 }
 
-const addPoductKitchen = async (body) => {
+const addProductKitchen = async (body) => {
     const products = await getAllKitchen();
     const newProduct = {
         productId: nanoid(),
@@ -47,14 +47,13 @@ const removeProductKitchen = async (productId) => {
     };
     const [result] = products.splice(index, 1);
     updateProductsKitchen(products);
-    return result;
-     
+    return result;  
 }
 
 module.exports = {
     getAllKitchen,
     getProductKitchen,
-    addPoductKitchen,
+    addProductKitchen,
     editProductKitchen,
     removeProductKitchen
 };

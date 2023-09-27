@@ -8,10 +8,10 @@ const productKitchen = new Schemas(
       required: [true, 'Set name for product'],
     },
     ingridients: {
-      type: Array,
+      type: String,
     },
     alergents: {
-      type: Array,
+      type: String,
     },
   },
   { versionKey: false, timestamps: true }

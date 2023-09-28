@@ -7,12 +7,16 @@ const productKitchen = new Schemas(
       type: String,
       required: [true, 'Set name for product'],
     },
-    ingridients: {
+    ingredients: {
       type: String,
+      required: [true, 'Set name for product'],
+    },
+    sous: {
+      type: String
     },
     alergents: {
-      type: String,
-    },
+      type: String
+    }
   },
   { versionKey: false, timestamps: true }
 );
@@ -20,3 +24,13 @@ const productKitchen = new Schemas(
 const ProductKitchen = mongoose.model('productKitchen', productKitchen);
 
 module.exports = ProductKitchen;
+
+
+    // type: {
+    //   type: String,
+    //   required: [true, 'Set type for product'],
+    // },
+    // name: {
+    //   type: String,
+    //   required: [true, 'Set name for product'],
+    // },

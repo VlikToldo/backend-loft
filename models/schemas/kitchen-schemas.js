@@ -9,7 +9,7 @@ const productKitchen = new Schemas(
     },
     ingredients: {
       type: String,
-      required: [true, 'Set name for product'],
+      required: [true, 'Set ingredients for product'],
     },
     sous: {
       type: String

@@ -9,13 +9,15 @@ const productKitchen = new Schemas(
     },
     ingredients: {
       type: String,
-      required: [true, 'Set ingredients for product'],
+      default: ""
     },
-    sous: {
-      type: String
+    souse: {
+      type: String,
+      default: ""
     },
     alergents: {
-      type: String
+      type: String,
+      default: ""
     }
   },
   { versionKey: false, timestamps: true }

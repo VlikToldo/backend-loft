@@ -7,7 +7,9 @@ const { HttpError } = require('../helpers');
 
 const AddSchema = Joi.object({
   name: Joi.string().required(),
-  ingredients: Joi.string(),
+  ingredients: Joi.string().required(),
+  souse: Joi.string().allow(''),
+  alergents: Joi.string().allow(''),
 });
 
 const getAllKitchen = async (req, res, next) => {

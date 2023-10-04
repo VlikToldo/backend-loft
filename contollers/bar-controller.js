@@ -6,7 +6,7 @@ const { HttpError } = require('../helpers');
 
 const AddSchema = Joi.object({
   name: Joi.string().required(),
-  ingridient: Joi.string(),
+  ingridient: Joi.string().allow(''),
 });
 
 const getAllBar = async (req, res, next) => {

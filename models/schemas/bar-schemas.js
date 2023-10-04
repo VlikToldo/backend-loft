@@ -7,11 +7,11 @@ const productBar = new Schemas(
       type: String,
       required: [true, 'Set name for product'],
     },
-    compound: {
-      type: Array,
+    igredients: {
+      type: String,
     },
     alcohol: {
-      type: Array,
+      type: String,
     },
   },
   { versionKey: false, timestamps: true }

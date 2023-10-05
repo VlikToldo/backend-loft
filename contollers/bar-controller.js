@@ -5,8 +5,10 @@ const serviceBar = require('../models/bar');
 const { HttpError } = require('../helpers');
 
 const AddSchema = Joi.object({
+  type: Joi.string().required(),
   name: Joi.string().required(),
-  ingridient: Joi.string().allow(''),
+  ingridients: Joi.string().allow(''),
+  alcohol: Joi.string().allow('')
 });
 
 const getAllBar = async (req, res, next) => {

@@ -3,6 +3,14 @@ const Schemas = mongoose.Schema;
 
 const productKitchen = new Schemas(
   {
+    type: {
+      type: String,
+      required: [true, 'Set name for product'],
+    },
+    ceh: {
+      type: String,
+      required: [true, 'Set name for product'],
+    },
     name: {
       type: String,
       required: [true, 'Set name for product'],

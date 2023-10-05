@@ -3,6 +3,10 @@ const Schemas = mongoose.Schema;
 
 const productBar = new Schemas(
   {
+    type: {
+      type: String,
+      required: [true, 'Set name for product'],
+    },
     name: {
       type: String,
       required: [true, 'Set name for product'],

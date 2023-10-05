@@ -6,8 +6,10 @@ const serviceKitchen = require('../models/kitchen');
 const { HttpError } = require('../helpers');
 
 const AddSchema = Joi.object({
+  type: Joi.string().required(),
+  ceh: Joi.string().required(),
   name: Joi.string().required(),
-  ingredients: Joi.string().required(),
+  ingredients: Joi.string().allow(''),
   souse: Joi.string().allow(''),
   alergents: Joi.string().allow(''),
 });

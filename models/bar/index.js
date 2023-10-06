@@ -4,8 +4,8 @@ const getAllBar = async () => {
   return ProductBar.find();
 };
 
-const getProductBar = async name => {
-  return ProductBar.findOne({ name: name });
+const getProductBar = (productId) => {
+  return ProductBar.findOne({ _id: productId });
 };
 
 const addProductBar = async body => {

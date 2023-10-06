@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', barControllers.getAllBar);
 
-router.get('/:name', barControllers.getProductBar);
+router.get('/:productId', barControllers.getProductBar);
 
 router.post('/', barControllers.addProductBar);
 

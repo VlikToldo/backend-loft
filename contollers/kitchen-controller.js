@@ -20,10 +20,10 @@ const getAllKitchen = async (req, res, next) => {
 };
 
 const getProductKitchen = async (req, res, next) => {
-  const { name } = req.params;
-  const result = await serviceKitchen.getProductKitchen(name);
+  const { productId } = req.params;
+  const result = await serviceKitchen.getProductKitchen(productId);
   if (!result) {
-    throw HttpError(404, `Позицію з назвою ${name} не знайдено!`);
+    throw HttpError(404, `Позицію з ID${productId} не знайдено!`);
   }
   res.status(200).json(result);
 };

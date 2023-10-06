@@ -6,8 +6,9 @@ const { HttpError } = require('../helpers');
 
 const AddSchema = Joi.object({
   type: Joi.string().required(),
+  ceh: Joi.string().required(),
   name: Joi.string().required(),
-  ingridients: Joi.string().allow(''),
+  ingredients: Joi.string().allow(''),
   alcohol: Joi.string().allow('')
 });
 
@@ -17,10 +18,10 @@ const getAllBar = async (req, res, next) => {
 };
 
 const getProductBar = async (req, res, next) => {
-  const { name } = req.params;
-  const result = await serviceBar.getProductBar(name);
+  const { productId } = req.params;
+  const result = await serviceBar.getProductBar(productId);
   if (!result) {
-    throw HttpError(404, `Позицію з назвою ${name} не знайдено!`);
+    throw HttpError(404, `Позицію з ID ${productId} не знайдено!`);
   }
   res.status(200).json(result);
 };

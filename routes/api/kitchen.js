@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', kitchenControllers.getAllKitchen);
 
-router.get('/:name', kitchenControllers.getProductKitchen);
+router.get('/:productId', kitchenControllers.getProductKitchen);
 
 router.post('/', kitchenControllers.addProductKitchen);
 

@@ -4,8 +4,8 @@ const getAllKitchen = async () => {
   return ProductKitchen.find();
 };
 
-const getProductKitchen = async name => {
-  return ProductKitchen.findOne({ name: name });
+const getProductKitchen = async (productId) => {
+  return ProductKitchen.findOne({ _id: productId });
 };
 
 const addProductKitchen = async body => {

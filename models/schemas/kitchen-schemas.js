@@ -34,13 +34,3 @@ const productKitchen = new Schemas(
 const ProductKitchen = mongoose.model('productKitchen', productKitchen);
 
 module.exports = ProductKitchen;
-
-
-    // type: {
-    //   type: String,
-    //   required: [true, 'Set type for product'],
-    // },
-    // name: {
-    //   type: String,
-    //   required: [true, 'Set name for product'],
-    // },

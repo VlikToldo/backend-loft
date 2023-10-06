@@ -7,15 +7,21 @@ const productBar = new Schemas(
       type: String,
       required: [true, 'Set name for product'],
     },
+    ceh: {
+      type: String,
+      required: [true, 'Set name for product'],
+    },
     name: {
       type: String,
       required: [true, 'Set name for product'],
     },
-    igredients: {
+    ingredients: {
       type: String,
+      default: ""
     },
     alcohol: {
       type: String,
+      default: ""
     },
   },
   { versionKey: false, timestamps: true }

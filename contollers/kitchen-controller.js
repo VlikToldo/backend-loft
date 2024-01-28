@@ -33,7 +33,13 @@ const addProductKitchen = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
-  const result = await serviceKitchen.addProductKitchen(req.body);
+
+  const {path: oldPath, filename} = req.file;
+  const newPath = path.join(imagesPath, filename);
+  await fs.rename(oldPath, newPath);
+  const position = path.join("position", filename);
+
+  const result = await serviceKitchen.addProductKitchen({...req.body, image: position});
   res.status(201).json(result);
 };
 

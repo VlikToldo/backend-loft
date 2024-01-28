@@ -26,7 +26,11 @@ const productKitchen = new Schemas(
     alergents: {
       type: String,
       default: ""
-    }
+    },
+    image: {
+      type: String,
+      default: ""
+    },
   },
   { versionKey: false, timestamps: true }
 );

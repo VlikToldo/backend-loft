@@ -37,6 +37,7 @@ const addProductBar = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
+  console.log(req.file);
   const {path: oldPath, filename} = req.file;
   const newPath = path.join(imagesPath, filename);
   await fs.rename(oldPath, newPath);

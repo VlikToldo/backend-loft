@@ -37,11 +37,11 @@ const addProductBar = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
-  console.log(req.file);
+
   const {path: oldPath, filename} = req.file;
   const newPath = path.join(imagesPath, filename);
   await fs.rename(oldPath, newPath);
-  const position = path.join("position", filename)
+  const position = path.join("position", filename);
  
   const result = await serviceBar.addProductBar({...req.body, image: position});
   res.status(201).json(result);

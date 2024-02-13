@@ -2,6 +2,10 @@ const Joi = require('joi');
 const { ctrlWrapper } = require('../utils');
 
 const serviceKitchen = require('../models/kitchen');
+const path = require("path");
+const fs = require("fs/promises");
+
+const imagesPath = path.resolve("public", "position");
 
 const { HttpError } = require('../helpers');
 
@@ -11,7 +15,8 @@ const AddSchema = Joi.object({
   name: Joi.string().required(),
   ingredients: Joi.string().allow(''),
   souse: Joi.string().allow(''),
-  alergents: Joi.string().allow(''),
+  allergens: Joi.string().allow(''),
+  image: Joi.string().allow('')
 });
 
 const getAllKitchen = async (req, res, next) => {

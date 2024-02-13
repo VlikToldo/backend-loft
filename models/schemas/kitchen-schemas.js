@@ -23,7 +23,7 @@ const productKitchen = new Schemas(
       type: String,
       default: ""
     },
-    alergents: {
+    allergens: {
       type: String,
       default: ""
     },

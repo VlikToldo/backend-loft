@@ -38,7 +38,7 @@ const addProductBar = async (req, res, next) => {
     throw HttpError(404, error.message);
   }
 
-  const addObj = {...req.body};
+  let addObj = {...req.body};
   if (req.file) {
     const {path: oldPath, filename} = req.file;
     const newPath = path.join(imagesPath, filename);
@@ -46,7 +46,7 @@ const addProductBar = async (req, res, next) => {
     const position = path.join("position", filename);
 
     addObj = {...addObj, image: position}
-  } 
+  }
   const result = await serviceBar.addProductBar({...addObj});
   res.status(201).json(result);
 };
@@ -67,7 +67,7 @@ const removeProductBar = async (req, res, next) => {
     throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
   }
   const updatedProducts = await serviceBar.getAllBar();
-  res.status(200).json({
+  res.json({
     message: 'Успішно видалено',
     products: updatedProducts
   });

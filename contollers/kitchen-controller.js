@@ -38,7 +38,7 @@ const addProductKitchen = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
-  const addObj = {...req.body};
+  let addObj = {...req.body};
   if (req.file) {
     const {path: oldPath, filename} = req.file;
     const newPath = path.join(imagesPath, filename);

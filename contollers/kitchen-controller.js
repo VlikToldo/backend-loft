@@ -38,13 +38,16 @@ const addProductKitchen = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
+  const addObj = {...req.body};
+  if (req.file) {
+    const {path: oldPath, filename} = req.file;
+    const newPath = path.join(imagesPath, filename);
+    await fs.rename(oldPath, newPath);
+    const position = path.join("position", filename);
 
-  const {path: oldPath, filename} = req.file;
-  const newPath = path.join(imagesPath, filename);
-  await fs.rename(oldPath, newPath);
-  const position = path.join("position", filename);
-
-  const result = await serviceKitchen.addProductKitchen({...req.body, image: position});
+    addObj = {...addObj, image: position}
+  }
+  const result = await serviceKitchen.addProductKitchen({...addObj});
   res.status(201).json(result);
 };
 

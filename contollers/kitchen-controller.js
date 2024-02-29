@@ -66,7 +66,7 @@ const removeProductKitchen = async (req, res, next) => {
   if (!result) {
     throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
   }
-  const updatedProducts = await serviceBar.getAllBar();
+  const updatedProducts = await serviceKitchen.getAllBar();
   res.status(200).json({
     message: 'Успішно видалено',
     products: updatedProducts

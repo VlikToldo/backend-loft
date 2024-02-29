@@ -23,10 +23,14 @@ const productKitchen = new Schemas(
       type: String,
       default: ""
     },
-    alergents: {
+    allergens: {
       type: String,
       default: ""
-    }
+    },
+    image: {
+      type: String,
+      default: ""
+    },
   },
   { versionKey: false, timestamps: true }
 );

@@ -1,15 +1,21 @@
 const Joi = require('joi');
 const { ctrlWrapper } = require('../utils');
 const serviceBar = require('../models/bar');
+const path = require("path");
+const fs = require("fs/promises");
+
+const imagesPath = path.resolve("public", "position");
 
 const { HttpError } = require('../helpers');
+
 
 const AddSchema = Joi.object({
   type: Joi.string().required(),
   ceh: Joi.string().required(),
   name: Joi.string().required(),
   ingredients: Joi.string().allow(''),
-  alcohol: Joi.string().allow('')
+  alcohol: Joi.string().allow(''),
+  image: Joi.string().allow('')
 });
 
 const getAllBar = async (req, res, next) => {
@@ -31,7 +37,13 @@ const addProductBar = async (req, res, next) => {
   if (error) {
     throw HttpError(404, error.message);
   }
-  const result = await serviceBar.addProductBar(req.body);
+
+  const {path: oldPath, filename} = req.file;
+  const newPath = path.join(imagesPath, filename);
+  await fs.rename(oldPath, newPath);
+  const position = path.join("position", filename);
+ 
+  const result = await serviceBar.addProductBar({...req.body, image: position});
   res.status(201).json(result);
 };
 

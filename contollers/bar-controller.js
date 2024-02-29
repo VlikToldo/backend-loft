@@ -50,8 +50,10 @@ const removeProductBar = async (req, res, next) => {
   if (!result) {
     throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
   }
+  const updatedProducts = await serviceBar.getAllBar();
   res.json({
     message: 'Успішно видалено',
+    products: updatedProducts
   });
 };
 

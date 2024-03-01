@@ -31,6 +31,7 @@ const productBar = new Schemas(
   { versionKey: false, timestamps: true }
 );
 
+
 const ProductBar = mongoose.model('productBar', productBar);
 
 module.exports = ProductBar;

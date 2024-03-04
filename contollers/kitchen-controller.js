@@ -40,6 +40,7 @@ const addProductKitchen = async (req, res, next) => {
   }
   let addObj = {...req.body};
   if (req.file) {
+
     const {path: oldPath, filename} = req.file;
     const newPath = path.join(imagesPath, filename);
     await fs.rename(oldPath, newPath);

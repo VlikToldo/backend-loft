@@ -1,13 +1,29 @@
 const Joi = require('joi');
+const fs = require('fs');
 const { ctrlWrapper } = require('../utils');
-
 const serviceKitchen = require('../models/kitchen');
-const path = require("path");
-const fs = require("fs/promises");
-
-const imagesPath = path.resolve("public", "position");
-
 const { HttpError } = require('../helpers');
+const { Storage } = require('@google-cloud/storage');
+require('dotenv').config();
+
+// Функція для завантаження файлу на Google Storage
+const projectId = process.env.PROJECT_ID;
+const keyFilename = process.env.KEYFILENAME;
+
+const storage = new Storage({ projectId, keyFilename });
+
+const uploadFile = async (bucketName, file, fileOutputName) => {
+    try {
+        const bucket = storage.bucket(bucketName);
+        const result = await bucket.upload(file, {
+            destination: fileOutputName,
+        });
+        return result;
+    } catch (error) {
+        console.log('Error', error);
+    }
+};
+
 
 const AddSchema = Joi.object({
   type: Joi.string().required(),
@@ -40,13 +56,25 @@ const addProductKitchen = async (req, res, next) => {
   }
   let addObj = {...req.body};
   if (req.file) {
+    if (req.file) {
+      const { path: filePath, filename } = req.file;
 
-    const {path: oldPath, filename} = req.file;
-    const newPath = path.join(imagesPath, filename);
-    await fs.rename(oldPath, newPath);
-    const position = path.join("position", filename);
+      const result = await uploadFile(process.env.BUCKET_NAME, filePath, filename);
+      addObj = { ...addObj, image: result[0].id };
 
-    addObj = {...addObj, image: position}
+      if (fs.existsSync(filePath)) {
+          // Видаляємо файл з тимчасової папки після завантаження на сервер
+          fs.unlink(filePath, err => {
+              if (err) {
+                  console.error('Помилка видалення файлу:', err);
+              } else {
+                  console.log('Файл успішно видалено');
+              }
+          });
+      } else {
+          console.error('Файл не знайдено');
+      }
+  }
   }
   const result = await serviceKitchen.addProductKitchen({...addObj});
   res.status(201).json(result);

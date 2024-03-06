@@ -17,6 +17,7 @@ const uploadFile = async (bucketName, file, fileOutputName) => {
         const bucket = storage.bucket(bucketName);
         const result = await bucket.upload(file, {
             destination: fileOutputName,
+            public: true,
         });
         return result;
     } catch (error) {

@@ -29,6 +29,7 @@ const AddSchema = Joi.object({
     type: Joi.string().required(),
     ceh: Joi.string().required(),
     name: Joi.string().required(),
+    country: Joi.string().allow(''),
     ingredients: Joi.string().allow(''),
     amount: Joi.string().allow(''),
     alcohol: Joi.string().allow(''),

@@ -15,6 +15,10 @@ const productBar = new Schemas(
       type: String,
       required: [true, 'Set name for product'],
     },
+    country: {
+      type: String,
+      default: ""
+    },
     ingredients: {
       type: String,
       default: ""

@@ -31,8 +31,10 @@ const AddSchema = Joi.object({
   ceh: Joi.string().required(),
   name: Joi.string().required(),
   ingredients: Joi.string().allow(''),
+  amount: Joi.string().allow(''),
   souse: Joi.string().allow(''),
   allergens: Joi.string().allow(''),
+  description: Joi.string().allow(''),
   image: Joi.string().allow('')
 });
 

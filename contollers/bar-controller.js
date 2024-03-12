@@ -30,7 +30,9 @@ const AddSchema = Joi.object({
     ceh: Joi.string().required(),
     name: Joi.string().required(),
     ingredients: Joi.string().allow(''),
+    amount: Joi.string().allow(''),
     alcohol: Joi.string().allow(''),
+    description: Joi.string().allow(''),
     image: Joi.string().allow(''),
 });
 
@@ -65,7 +67,7 @@ const addProductBar = async (req, res, next) => {
             // Видаляємо файл з тимчасової папки після завантаження на сервер
             fs.unlink(filePath, err => {
                 if (err) {
-                    console.error('Помилка видалення файлу:', err);
+                    console.error('Помилка видалення файлу з тимчасової папки:', err);
                 } else {
                     console.log('Файл успішно видалено');
                 }

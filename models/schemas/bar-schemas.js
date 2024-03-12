@@ -19,7 +19,15 @@ const productBar = new Schemas(
       type: String,
       default: ""
     },
+    amount: {
+      type: String,
+      default: ""
+    },
     alcohol: {
+      type: String,
+      default: ""
+    },    
+    description: {
       type: String,
       default: ""
     },

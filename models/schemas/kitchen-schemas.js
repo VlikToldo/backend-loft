@@ -19,11 +19,19 @@ const productKitchen = new Schemas(
       type: String,
       default: ""
     },
+    amount: {
+      type: String,
+      default: ""
+    },
     souse: {
       type: String,
       default: ""
     },
     allergens: {
+      type: String,
+      default: ""
+    },
+    description: {
       type: String,
       default: ""
     },

@@ -11,7 +11,7 @@ router.get('/:productId', kitchenControllers.getProductKitchen);
 
 router.post('/', upload.single("image"), kitchenControllers.addProductKitchen);
 
-router.put('/:productId', kitchenControllers.updateProductKitchen);
+router.put('/:productId', upload.single("image"), kitchenControllers.updateProductKitchen);
 
 router.delete('/:productId', kitchenControllers.removeProductKitchen);
 

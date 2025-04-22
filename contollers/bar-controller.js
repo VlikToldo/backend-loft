@@ -19,6 +19,7 @@ const uploadFile = async (bucketName, file, fileOutputName) => {
             destination: fileOutputName,
             public: true,
         });
+
         return result;
     } catch (error) {
         console.log('Error', error);
@@ -83,10 +84,38 @@ const addProductBar = async (req, res, next) => {
 
 const updateProductBar = async (req, res, next) => {
     const { productId } = req.params;
-    const result = await serviceBar.updateProductBar(productId, req.body);
+
+    let updateObj = { ...req.body };
+
+    if (req.file) {
+        const { path: filePath, filename } = req.file;
+
+        try {
+            const resultUpload = await uploadFile(process.env.BUCKET_NAME, filePath, filename);
+            console.log('resultUpload', resultUpload);
+
+            updateObj = { ...updateObj, image: resultUpload[0].id };
+        } catch (err) {
+            console.error('Помилка під час завантаження файлу:', err);
+            throw HttpError(500, 'Помилка під час завантаження файлу');
+        }
+
+        if (fs.existsSync(filePath)) {
+            fs.unlink(filePath, err => {
+                if (err) {
+                    console.error('Помилка видалення тимчасового файлу:', err);
+                } else {
+                    console.log('Тимчасовий файл успішно видалено');
+                }
+            });
+        }
+    }
+    const result = await serviceBar.updateProductBar(productId, { ...updateObj });
+
     if (!result) {
         throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
     }
+
     res.json(result);
 };
 

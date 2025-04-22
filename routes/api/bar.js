@@ -11,7 +11,7 @@ router.get('/:productId', barControllers.getProductBar);
 
 router.post('/', upload.single("image"),  barControllers.addProductBar);
 
-router.put('/:productId', barControllers.updateProductBar);
+router.put('/:productId', upload.single("image"), barControllers.updateProductBar);
 
 router.delete('/:productId', barControllers.removeProductBar);
 

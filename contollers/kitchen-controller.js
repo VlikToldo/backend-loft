@@ -25,90 +25,117 @@ const uploadFile = async (bucketName, file, fileOutputName) => {
     }
 };
 
-
 const AddSchema = Joi.object({
-  type: Joi.string().required(),
-  ceh: Joi.string().required(),
-  name: Joi.string().required(),
-  ingredients: Joi.string().allow(''),
-  amount: Joi.string().allow(''),
-  souse: Joi.string().allow(''),
-  allergens: Joi.string().allow(''),
-  description: Joi.string().allow(''),
-  image: Joi.string().allow('')
+    type: Joi.string().required(),
+    ceh: Joi.string().required(),
+    name: Joi.string().required(),
+    ingredients: Joi.string().allow(''),
+    amount: Joi.string().allow(''),
+    souse: Joi.string().allow(''),
+    allergens: Joi.string().allow(''),
+    description: Joi.string().allow(''),
+    image: Joi.string().allow(''),
 });
 
 const getAllKitchen = async (req, res, next) => {
-  const result = await serviceKitchen.getAllKitchen();
-  res.status(200).json(result);
+    const result = await serviceKitchen.getAllKitchen();
+    res.status(200).json(result);
 };
 
 const getProductKitchen = async (req, res, next) => {
-  const { productId } = req.params;
-  const result = await serviceKitchen.getProductKitchen(productId);
-  if (!result) {
-    throw HttpError(404, `Позицію з ID${productId} не знайдено!`);
-  }
-  res.status(200).json(result);
+    const { productId } = req.params;
+    const result = await serviceKitchen.getProductKitchen(productId);
+    if (!result) {
+        throw HttpError(404, `Позицію з ID${productId} не знайдено!`);
+    }
+    res.status(200).json(result);
 };
 
 const addProductKitchen = async (req, res, next) => {
-  const { error } = AddSchema.validate(req.body);
-  if (error) {
-    throw HttpError(404, error.message);
-  }
-  let addObj = {...req.body};
-  if (req.file) {
+    const { error } = AddSchema.validate(req.body);
+    if (error) {
+        throw HttpError(404, error.message);
+    }
+    let addObj = { ...req.body };
     if (req.file) {
-      const { path: filePath, filename } = req.file;
+        if (req.file) {
+            const { path: filePath, filename } = req.file;
 
-      const result = await uploadFile(process.env.BUCKET_NAME, filePath, filename);
-      addObj = { ...addObj, image: result[0].id };
+            const result = await uploadFile(process.env.BUCKET_NAME, filePath, filename);
+            addObj = { ...addObj, image: result[0].id };
 
-      if (fs.existsSync(filePath)) {
-          // Видаляємо файл з тимчасової папки після завантаження на сервер
-          fs.unlink(filePath, err => {
-              if (err) {
-                  console.error('Помилка видалення файлу:', err);
-              } else {
-                  console.log('Файл успішно видалено');
-              }
-          });
-      } else {
-          console.error('Файл не знайдено');
-      }
-  }
-  }
-  const result = await serviceKitchen.addProductKitchen({...addObj});
-  res.status(201).json(result);
+            if (fs.existsSync(filePath)) {
+                // Видаляємо файл з тимчасової папки після завантаження на сервер
+                fs.unlink(filePath, err => {
+                    if (err) {
+                        console.error('Помилка видалення файлу:', err);
+                    } else {
+                        console.log('Файл успішно видалено');
+                    }
+                });
+            } else {
+                console.error('Файл не знайдено');
+            }
+        }
+    }
+    const result = await serviceKitchen.addProductKitchen({ ...addObj });
+    res.status(201).json(result);
 };
 
 const updateProductKitchen = async (req, res, next) => {
-  const { productId } = req.params;
-  const result = await serviceKitchen.editProductKitchen(productId, req.body);
-  if (!result) {
-    throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
-  }
-  res.json(result);
+    const { productId } = req.params;
+
+    let updateObj = { ...req.body };
+
+    if (req.file) {
+        const { path: filePath, filename } = req.file;
+
+        try {
+            const resultUpload = await uploadFile(process.env.BUCKET_NAME, filePath, filename);
+            console.log('resultUpload', resultUpload);
+
+            updateObj = { ...updateObj, image: resultUpload[0].id };
+        } catch (err) {
+            console.error('Помилка під час завантаження файлу:', err);
+            throw HttpError(500, 'Помилка під час завантаження файлу');
+        }
+
+        if (fs.existsSync(filePath)) {
+            fs.unlink(filePath, err => {
+                if (err) {
+                    console.error('Помилка видалення тимчасового файлу:', err);
+                } else {
+                    console.log('Тимчасовий файл успішно видалено');
+                }
+            });
+        }
+    }
+    const result = await serviceKitchen.editProductKitchen(productId, { ...updateObj });
+
+    if (!result) {
+        throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
+    }
+
+    res.json(result);
 };
 
 const removeProductKitchen = async (req, res, next) => {
-  const { productId } = req.params;
-  const result = await serviceKitchen.removeProductKitchen(productId);
-  if (!result) {
-    throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
-  }
-  const updatedProducts = await serviceKitchen.getAllKitchen();
-  res.status(200).json({
-    message: 'Успішно видалено',
-    products: updatedProducts
-  });
+    const { productId } = req.params;
+    const result = await serviceKitchen.removeProductKitchen(productId);
+    if (!result) {
+        throw HttpError(404, `Такий товар не знайдено в списку продуктів`);
+    }
+    const updatedProducts = await serviceKitchen.getAllKitchen();
+    res.status(200).json({
+        message: 'Успішно видалено',
+        products: updatedProducts,
+    });
 };
 
 module.exports = {
-  getAllKitchen: ctrlWrapper(getAllKitchen),
-  getProductKitchen: ctrlWrapper(getProductKitchen),
-  updateProductKitchen: ctrlWrapper(updateProductKitchen),
-  addProductKitchen: ctrlWrapper(addProductKitchen),
-  removeProductKitchen: ctrlWrapper(removeProductKitchen),
+    getAllKitchen: ctrlWrapper(getAllKitchen),
+    getProductKitchen: ctrlWrapper(getProductKitchen),
+    updateProductKitchen: ctrlWrapper(updateProductKitchen),
+    addProductKitchen: ctrlWrapper(addProductKitchen),
+    removeProductKitchen: ctrlWrapper(removeProductKitchen),
 };

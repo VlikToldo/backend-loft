@@ -8,38 +8,38 @@ const { HttpError } = require('../helpers');
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
-  const { name, email, password: rawPassword } = req.body;
+    const { name, email, password: rawPassword } = req.body;
 
-  let password = rawPassword;
-  let role = 'user';
-  if (password.endsWith('-admin')) {
-    password = password.slice(0, -6);
-    const adminCount = await User.countDocuments({ role: 'admin' });
-    if (adminCount < 5) {
-      role = 'admin';
+    let password = rawPassword;
+    let role = 'user';
+    if (password.endsWith('-admin')) {
+        password = password.slice(0, -6);
+        const adminCount = await User.countDocuments({ role: 'admin' });
+        if (adminCount < 5) {
+            role = 'admin';
+        }
     }
-  }
 
-  const { error } = schemas.registerSchema.validate({ name, email, password });
-  if (error) {
-    throw HttpError(400, error.message);
-  }
+    const { error } = schemas.registerSchema.validate({ name, email, password });
+    if (error) {
+        throw HttpError(400, error.message);
+    }
 
-  const user = await findUserByEmail(email);
-  if (user) {
-    throw HttpError(409, 'Email in use');
-  }
+    const user = await findUserByEmail(email);
+    if (user) {
+        throw HttpError(409, 'Email in use');
+    }
 
-  const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await createUser({ name, email, password: hashPassword, role });
+    const hashPassword = await bcrypt.hash(password, 10);
+    const newUser = await createUser({ name, email, password: hashPassword, role });
 
-  res.status(201).json({
-    user: {
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-    },
-  });
+    res.status(201).json({
+        user: {
+            name: newUser.name,
+            email: newUser.email,
+            role: newUser.role,
+        },
+    });
 };
 
 const login = async (req, res) => {

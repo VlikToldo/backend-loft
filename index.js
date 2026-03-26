@@ -21,7 +21,7 @@ app.use('/api/bar', barRouter);
 app.use('/api/kitchen', kitchenRouter);
 
 app.use((req, res) => {
-    req.status(404).json({
+    res.status(404).json({
         message: 'Not Found',
     });
 });

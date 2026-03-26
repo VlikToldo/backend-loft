@@ -43,10 +43,13 @@ const getAllKitchen = async (req, res, next) => {
 };
 
 const getProductKitchen = async (req, res, next) => {
-    const { productId } = req.params;
+    const productId = req.params.productId || req.params.id;
+    if (!productId) {
+        throw HttpError(400, 'Product ID required');
+    }
     const result = await serviceKitchen.getProductKitchen(productId);
     if (!result) {
-        throw HttpError(404, `Позицію з ID${productId} не знайдено!`);
+        throw HttpError(404, `Позицію з ID ${productId} не знайдено!`);
     }
     res.status(200).json(result);
 };
